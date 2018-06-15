@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +28,7 @@ public class CPD {
 
     private CPDConfiguration configuration;
 
-    private Map<String, SourceCode> source = new TreeMap<>();
+    // private Map<String, SourceCode> source = new TreeMap<>();
     private CPDListener listener = new CPDNullListener();
     private Tokens tokens = new Tokens();
     private MatchAlgorithm matchAlgorithm;
@@ -48,7 +46,7 @@ public class CPD {
     }
 
     public void go() {
-        matchAlgorithm = new MatchAlgorithm(source, tokens, configuration.getMinimumTileSize(), listener);
+        matchAlgorithm = new MatchAlgorithm(tokens, configuration.getMinimumTileSize(), listener);
         matchAlgorithm.findMatches();
     }
 
@@ -141,7 +139,7 @@ public class CPD {
     private void addAndThrowLexicalError(SourceCode sourceCode) throws IOException {
         configuration.tokenizer().tokenize(sourceCode, tokens);
         listener.addedFile(1, new File(sourceCode.getFileName()));
-        source.put(sourceCode.getFileName(), sourceCode);
+        // source.put(sourceCode.getFileName(), sourceCode);
     }
 
     private void addAndSkipLexicalErrors(SourceCode sourceCode) throws IOException {
@@ -161,7 +159,7 @@ public class CPD {
      * @return names of sources to be processed
      */
     public List<String> getSourcePaths() {
-        return new ArrayList<>(source.keySet());
+        return new ArrayList<>(); // new ArrayList<>(source.keySet());
     }
 
     /**
@@ -169,9 +167,9 @@ public class CPD {
      *
      * @return all Sources to be processed
      */
-    public List<SourceCode> getSources() {
-        return new ArrayList<>(source.values());
-    }
+    // public List<SourceCode> getSources() {
+    // return new ArrayList<>(source.values());
+    // }
 
     public static void main(String[] args) {
         CPDCommandLineInterface.main(args);

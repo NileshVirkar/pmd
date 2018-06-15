@@ -18,20 +18,20 @@ public class MatchAlgorithm {
     private int lastMod = 1;
 
     private List<Match> matches;
-    private Map<String, SourceCode> source;
+    //private Map<String, SourceCode> source;
     private Tokens tokens;
-    private List<TokenEntry> code;
+    //private List<TokenEntry> code;
     private CPDListener cpdListener;
     private int min;
 
-    public MatchAlgorithm(Map<String, SourceCode> sourceCode, Tokens tokens, int min) {
-        this(sourceCode, tokens, min, new CPDNullListener());
+    public MatchAlgorithm(Tokens tokens, int min) {
+        this(tokens, min, new CPDNullListener());
     }
 
-    public MatchAlgorithm(Map<String, SourceCode> sourceCode, Tokens tokens, int min, CPDListener listener) {
-        this.source = sourceCode;
+    public MatchAlgorithm(Tokens tokens, int min, CPDListener listener) {
+        //this.source = sourceCode;
         this.tokens = tokens;
-        this.code = tokens.getTokens();
+        //this.code = tokens.getTokens();
         this.min = min;
         this.cpdListener = listener;
         for (int i = 0; i < min; i++) {
@@ -48,7 +48,7 @@ public class MatchAlgorithm {
     }
 
     public TokenEntry tokenAt(int offset, TokenEntry m) {
-        return code.get(offset + m.getIndex());
+        return tokens.getTokens().get(offset + m.getIndex());
     }
 
     public int getMinimumTileSize() {
@@ -80,8 +80,8 @@ public class MatchAlgorithm {
                 int lineCount = tokens.getLineCount(token, match);
 
                 mark.setLineCount(lineCount);
-                SourceCode sourceCode = source.get(token.getTokenSrcID());
-                mark.setSourceCode(sourceCode);
+                //SourceCode sourceCode = source.get(token.getTokenSrcID());
+                mark.setSourceCode(null);
             }
         }
         cpdListener.phaseUpdate(CPDListener.DONE);
@@ -90,8 +90,8 @@ public class MatchAlgorithm {
     @SuppressWarnings("PMD.JumbledIncrementer")
     private Map<TokenEntry, Object> hash() {
         Map<TokenEntry, Object> markGroups = new HashMap<>(tokens.size());
-        for (int i = code.size() - 1; i >= 0; i--) {
-            TokenEntry token = code.get(i);
+        for (int i = tokens.getTokens().size() - 1; i >= 0; i--) {
+            TokenEntry token = tokens.getTokens().get(i);
             if (token != TokenEntry.EOF) {
                 int last = tokenAt(min, token).getIdentifier();
                 lastHash = MOD * lastHash + token.getIdentifier() - lastMod * last;
@@ -116,7 +116,7 @@ public class MatchAlgorithm {
             } else {
                 lastHash = 0;
                 for (int end = Math.max(0, i - min + 1); i > end; i--) {
-                    token = code.get(i - 1);
+                    token = tokens.getTokens().get(i - 1);
                     lastHash = MOD * lastHash + token.getIdentifier();
                     if (token == TokenEntry.EOF) {
                         break;

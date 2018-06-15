@@ -7,7 +7,7 @@ package net.sourceforge.pmd.cpd;
 public class Mark implements Comparable<Mark> {
     private TokenEntry token;
     private int lineCount;
-    private SourceCode code;
+    private String firstLine;
 
     public Mark(TokenEntry token) {
         this.token = token;
@@ -18,7 +18,7 @@ public class Mark implements Comparable<Mark> {
     }
 
     public String getFilename() {
-        return this.token.getTokenSrcID();
+        return FilePathContainer.getFilePathContainer().getFilePath(this.token.getTokenSrcID());
     }
 
     public int getBeginLine() {
@@ -38,11 +38,11 @@ public class Mark implements Comparable<Mark> {
     }
 
     public String getSourceCodeSlice() {
-        return this.code.getSlice(getBeginLine(), getEndLine());
+        return this.firstLine;
     }
 
     public void setSourceCode(SourceCode code) {
-        this.code = code;
+        this.firstLine = ""; //code.getSlice(getBeginLine(), getBeginLine() + 1);
     }
 
     @Override
