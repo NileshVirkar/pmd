@@ -14,7 +14,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     public static final TokenEntry EOF = new TokenEntry();
 
-    private String tokenSrcID;
+    private int tokenSrcID;
     private int beginLine;
     private int index;
     private int identifier;
@@ -35,7 +35,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     private TokenEntry() {
         this.identifier = 0;
-        this.tokenSrcID = "EOFMarker";
+        this.tokenSrcID = FilePathContainer.getFilePathContainer().setOrGetFilePath("EOFMarker");
     }
 
     /**
@@ -44,9 +44,9 @@ public class TokenEntry implements Comparable<TokenEntry> {
      * @param tokenSrcID
      * @param beginLine the linenumber, 1-based.
      */
-    public TokenEntry(String image, String tokenSrcID, int beginLine) {
+    public TokenEntry(String image, String tokenSrcPath, int beginLine) {
         setImage(image);
-        this.tokenSrcID = tokenSrcID;
+        this.tokenSrcID = FilePathContainer.getFilePathContainer().setOrGetFilePath(tokenSrcPath);
         this.beginLine = beginLine;
         this.index = TOKEN_COUNT.get().getAndIncrement();
     }
@@ -85,7 +85,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
         }
     }
 
-    public String getTokenSrcID() {
+    public int getTokenSrcID() {
         return tokenSrcID;
     }
 
