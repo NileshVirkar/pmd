@@ -79,4 +79,11 @@ public class Mark implements Comparable<Mark> {
     public int compareTo(Mark other) {
         return getToken().compareTo(other.getToken());
     }
+
+    @Override
+    public String toString() {
+        return "Mark [token=" + token + ", lineCount=" + lineCount + ", firstLine=" + firstLine + ", getFilename()="
+                + getFilename() + ", getBeginLine()=" + getBeginLine() + ", getEndLine()=" + getEndLine()
+                + ", getLineCount()=" + getLineCount() + "]";
+    }
 }
