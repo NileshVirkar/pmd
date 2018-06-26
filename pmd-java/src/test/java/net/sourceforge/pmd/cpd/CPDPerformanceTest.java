@@ -15,12 +15,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
-
+@Ignore
 public class CPDPerformanceTest {
 
-    // public static void main(String[] args) {
+    //public static void main(String[] args) {
     @Test
     public void cpdtest() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -30,10 +31,10 @@ public class CPDPerformanceTest {
 
         cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
-        cpdConfiguration.setSkipLexicalErrors(true);
+        cpdConfiguration.setSkipLexicalErrors(false);
 
         CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/code");
+        addFiles(cpd, "C:/corona/jeditcpd/org/gjt/sp/jedit/syntax");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();
@@ -45,8 +46,14 @@ public class CPDPerformanceTest {
             matches.add(matchesIter.next());
         }
         System.out.println(matches.size());
+        // for (Match match : matches) {
+        // Set<Mark> marks = match.getMarkSet();
+        // for (Mark mark : marks) {
+        // System.out.println(mark.toString());
+        // }
+        // }
     }
-    
+
     private static void addFiles(CPD cpd, String baseDir) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
@@ -61,7 +68,7 @@ public class CPDPerformanceTest {
                 }
             }
             System.out
-                    .println(dateFormat.format(new Date()) + "Finished adding " + files.size() + " files to CPD tool");
+            .println(dateFormat.format(new Date()) + "Finished adding " + files.size() + " files to CPD tool");
         } catch (IOException e) {
             System.out.println("IOException while adding files into CPD");
         }
