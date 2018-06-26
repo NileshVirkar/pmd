@@ -230,21 +230,17 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <timezone>-3</timezone>
         </developer>
     </developers>
-    <scm>
-        <connection>scm:git:git://github.com/pmd/pmd.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/pmd/pmd.git</developerConnection>
-        <url>https://github.com/pmd/pmd</url>
-        <tag>HEAD</tag>
-    </scm>
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
+   <repository>
+        <id>central</id>
+        <name>Internal Release Repository</name>
+        <url>http://5.189.134.179:8081/artifactory/libs-release-local</url>
+   </repository>
+   <snapshotRepository>
+      <id>snapshots</id>
+      <name>Internal Snapshot Repository</name>
+      <url>http://5.189.134.179:8081/artifactory/libs-snapshot-local</url>
+   </snapshotRepository>
     </distributionManagement>
     <organization>
         <name>PMD</name>
@@ -440,8 +436,8 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                             <excludeRoot>target/generated-sources/javacc</excludeRoot>
                             <excludeRoot>target/generated-sources/antlr4</excludeRoot>
                         </excludeRoots>
-                        <skipPmdError>false</skipPmdError>
-                        <failOnViolation>true</failOnViolation>
+                        <skipPmdError>true</skipPmdError>
+                        <failOnViolation>false</failOnViolation>
                         <printFailingErrors>true</printFailingErrors>
                     </configuration>
                     <dependencies>
@@ -553,11 +549,10 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+<!--             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <!-- configuration is in plugin management section -->
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -654,12 +649,11 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 </reportSets>
             </plugin>
 
-            <plugin>
+<!--             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>${pmd.plugin.version}</version>
-                <!-- configuration is in plugin management section -->
-            </plugin>
+            </plugin> -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -861,25 +855,20 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
     </dependencyManagement>
 
     <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+   <repository>
+      <id>central</id>
+      <url>http://5.189.134.179:8081/artifactory/libs-release</url>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+   </repository>
+   <repository>
+      <id>snapshots</id>
+      <url>http://5.189.134.179:8081/artifactory/libs-snapshot</url>
+      <releases>
+         <enabled>true</enabled>
+      </releases>
+   </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -978,33 +967,34 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
     <modules>
         <module>pmd-core</module>
         <module>pmd-cpp</module>
-<!--         <module>pmd-cs</module> -->
-<!--         <module>pmd-dist</module> -->
-<!--         <module>pmd-fortran</module> -->
-<!--         <module>pmd-go</module> -->
-<!--         <module>pmd-groovy</module> -->
+<!--         <module>pmd-cs</module>
+        <module>pmd-dist</module>
+        <module>pmd-fortran</module>
+        <module>pmd-go</module>
+        <module>pmd-groovy</module> -->
         <module>pmd-java</module>
-<!--         <module>pmd-javascript</module> -->
-<!--         <module>pmd-jsp</module> -->
-<!--         <module>pmd-matlab</module> -->
-<!--         <module>pmd-objectivec</module> -->
-<!--         <module>pmd-perl</module> -->
-<!--         <module>pmd-php</module> -->
-<!--         <module>pmd-plsql</module> -->
-<!--         <module>pmd-python</module> -->
-<!--         <module>pmd-ruby</module> -->
-<!--         <module>pmd-scala</module> -->
-<!--         <module>pmd-swift</module> -->
-<!--         <module>pmd-test</module> -->
-<!--         <module>pmd-visualforce</module> -->
-<!--         <module>pmd-vm</module> -->
-<!--         <module>pmd-xml</module> -->
+		<module>pmd-test</module>
+<!--         <module>pmd-javascript</module>
+        <module>pmd-jsp</module>
+        <module>pmd-matlab</module>
+        <module>pmd-objectivec</module>
+        <module>pmd-perl</module>
+        <module>pmd-php</module>
+        <module>pmd-plsql</module>
+        <module>pmd-python</module>
+        <module>pmd-ruby</module>
+        <module>pmd-scala</module>
+        <module>pmd-swift</module>
+        <module>pmd-test</module>
+        <module>pmd-visualforce</module>
+        <module>pmd-vm</module>
+        <module>pmd-xml</module> -->
 
         <!-- java8 modules -->
-<!--         <module>pmd-apex-jorje</module> -->
-<!--         <module>pmd-apex</module> -->
-<!--         <module>pmd-java8</module> -->
-<!--         <module>pmd-ui</module> -->
-<!--         <module>pmd-doc</module> -->
+<!--         <module>pmd-apex-jorje</module>
+        <module>pmd-apex</module>
+        <module>pmd-java8</module>
+        <module>pmd-ui</module>
+        <module>pmd-doc</module> -->
     </modules>
 </project>
