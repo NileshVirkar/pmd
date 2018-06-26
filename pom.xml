@@ -252,6 +252,8 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
     <properties>
         <java.version>8</java.version>
+        <pmd.version>6.5.0-SNAPSHOT</pmd.version>
+        
         <!-- Workaround for https://youtrack.jetbrains.com/issue/IDEA-188690 -->
         <maven.compiler.source>1.${java.version}</maven.compiler.source>
         <maven.compiler.target>1.${java.version}</maven.compiler.target>
@@ -967,14 +969,14 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
     <modules>
         <module>pmd-core</module>
         <module>pmd-cpp</module>
-<!--         <module>pmd-cs</module>
+        <module>pmd-cs</module>
         <module>pmd-dist</module>
         <module>pmd-fortran</module>
         <module>pmd-go</module>
-        <module>pmd-groovy</module> -->
+        <module>pmd-groovy</module>
         <module>pmd-java</module>
 		<module>pmd-test</module>
-<!--         <module>pmd-javascript</module>
+        <module>pmd-javascript</module>
         <module>pmd-jsp</module>
         <module>pmd-matlab</module>
         <module>pmd-objectivec</module>
@@ -988,13 +990,13 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-test</module>
         <module>pmd-visualforce</module>
         <module>pmd-vm</module>
-        <module>pmd-xml</module> -->
+        <module>pmd-xml</module>
 
         <!-- java8 modules -->
-<!--         <module>pmd-apex-jorje</module>
+        <module>pmd-apex-jorje</module>
         <module>pmd-apex</module>
         <module>pmd-java8</module>
         <module>pmd-ui</module>
-        <module>pmd-doc</module> -->
+        <module>pmd-doc</module>
     </modules>
 </project>
