@@ -67,32 +67,36 @@ public abstract class AbstractTokenizer implements Tokenizer {
     }
 
     private int getTokenFromLine(StringBuilder token, int loc) {
-        for (int j = loc; j < currentLine.length(); j++) {
-            char tok = currentLine.charAt(j);
-            if (!Character.isWhitespace(tok) && !ignoreCharacter(tok)) {
-                if (isComment(tok)) {
-                    if (token.length() > 0) {
-                        return j;
+        try {
+            for (int j = loc; j < currentLine.length(); j++) {
+                char tok = currentLine.charAt(j);
+                if (!Character.isWhitespace(tok) && !ignoreCharacter(tok)) {
+                    if (isComment(tok)) {
+                        if (token.length() > 0) {
+                            return j;
+                        } else {
+                            return getCommentToken(token, loc);
+                        }
+                    } else if (isString(tok)) {
+                        if (token.length() > 0) {
+                            return j; // we need to now parse the string as a
+                            // separate token.
+                        } else {
+                            // we are at the start of a string
+                            return parseString(token, j, tok);
+                        }
                     } else {
-                        return getCommentToken(token, loc);
-                    }
-                } else if (isString(tok)) {
-                    if (token.length() > 0) {
-                        return j; // we need to now parse the string as a
-                        // separate token.
-                    } else {
-                        // we are at the start of a string
-                        return parseString(token, j, tok);
+                        token.append(tok);
                     }
                 } else {
-                    token.append(tok);
+                    if (token.length() > 0) {
+                        return j;
+                    }
                 }
-            } else {
-                if (token.length() > 0) {
-                    return j;
-                }
+                loc = j;
             }
-            loc = j;
+        } catch(StackOverflowError t) {
+            System.err.println("String size is too big, "+ t +" occured while parsing string.");
         }
         return loc + 1;
     }
@@ -126,8 +130,8 @@ public abstract class AbstractTokenizer implements Tokenizer {
                 spanMultipleLinesString && // ... the language allow multiple
                 // line span Strings
                 lineNumber < code.size() - 1 // ... there is still more lines to
-        // parse
-        ) {
+                // parse
+                ) {
             // removes last character, if it is the line continuation (e.g.
             // backslash) character
             if (spanMultipleLinesLineContinuationCharacter != null && token.length() > 0
