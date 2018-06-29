@@ -95,8 +95,8 @@ public abstract class AbstractTokenizer implements Tokenizer {
                 }
                 loc = j;
             }
-        } catch(StackOverflowError t) {
-            System.err.println("String size is too big, "+ t +" occured while parsing string.");
+        } catch (StackOverflowError t) {
+            System.err.println("String size is too big, " + t + " occured while parsing string.");
         }
         return loc + 1;
     }
@@ -130,8 +130,8 @@ public abstract class AbstractTokenizer implements Tokenizer {
                 spanMultipleLinesString && // ... the language allow multiple
                 // line span Strings
                 lineNumber < code.size() - 1 // ... there is still more lines to
-                // parse
-                ) {
+        // parse
+        ) {
             // removes last character, if it is the line continuation (e.g.
             // backslash) character
             if (spanMultipleLinesLineContinuationCharacter != null && token.length() > 0
