@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>ACL-6.5.0-SNAPSHOT</version>
+    <version>ACL-4.1.0.0-6.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -252,7 +252,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
     <properties>
         <java.version>8</java.version>
-        <pmd.version>ACL-6.5.0-SNAPSHOT</pmd.version>
+        <pmd.version>ACL-4.1.0.0-6.5.0-SNAPSHOT</pmd.version>
         
         <!-- Workaround for https://youtrack.jetbrains.com/issue/IDEA-188690 -->
         <maven.compiler.source>1.${java.version}</maven.compiler.source>
@@ -997,5 +997,8 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-java8</module>
         <module>pmd-ui</module>
         <module>pmd-doc</module>
+        <module>pmd-typescript</module>
+        <module>pmd-kotlin</module>
+        <module>pmd-solidity</module>
     </modules>
 </project>

@@ -33,7 +33,7 @@ public class GOCPDPerformanceTest {
         cpdConfiguration.setSkipLexicalErrors(true);
 
         CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/cpdcode/project");
+        addFiles(cpd, "C:/corona/cpdcode/go");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();

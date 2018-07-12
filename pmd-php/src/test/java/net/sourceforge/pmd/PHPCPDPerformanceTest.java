@@ -39,7 +39,7 @@ public class PHPCPDPerformanceTest {
         cpdConfiguration.setSkipLexicalErrors(true);
 
         CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/cpdcode/php");
+        addFiles(cpd, "C:/corona/drupal-8.6.x");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();

@@ -5,28 +5,37 @@
 package net.sourceforge.pmd.cpd;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 /**
  * Implements a tokenizer for the Go Language.
  *
  * @author oinume@gmail.com
  */
-public class GoTokenizer extends AbstractTokenizer {
+public class GoTokenizer extends PygmentsTokenizer implements Tokenizer {
+    private Deque<Character> commentTokens;
+    private boolean inComment = false;
 
-    /**
-     * Creates a new {@link GoTokenizer}
-     */
     public GoTokenizer() {
-        // setting markers for "string" in Go
-        this.stringToken = new ArrayList<String>();
-        this.stringToken.add("\"");
-        this.stringToken.add("`");
+        super(CPDLanguage.GO);
 
-        // setting markers for 'ignorable character' in Go
-        this.ignorableCharacter = new ArrayList<String>();
-        this.ignorableCharacter.add(";");
+        List<String> skipKeys = new ArrayList<>();
+        skipKeys.add("Token.Comment.Multiline");
+        skipKeys.add("Token.Comment.Single");
+        skipKeys.add("Token.Name.Variable");
 
-        // setting markers for 'ignorable string' in Go
-        this.ignorableStmt = new ArrayList<String>();
+        List<String> skipValues = new ArrayList<>();
+        skipValues.add("\n");
+        skipValues.add(" ");
+        skipValues.add("\"");
+        skipValues.add("\'");
+
+        super.configureTokenizer(skipKeys, skipValues);
+    }
+
+    @Override
+    public void tokenize(SourceCode tokens, Tokens tokenEntries) {
+        super.tokenize(tokens, tokenEntries);
     }
 }
