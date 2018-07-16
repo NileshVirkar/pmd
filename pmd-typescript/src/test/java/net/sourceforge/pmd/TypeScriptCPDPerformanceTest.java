@@ -34,12 +34,12 @@ public class TypeScriptCPDPerformanceTest {
         CPDConfiguration cpdConfiguration = new CPDConfiguration();
         Language language = new TypeScriptLanguage();
 
-        cpdConfiguration.setMinimumTileSize(8);
+        cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
         cpdConfiguration.setSkipLexicalErrors(true);
 
         CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/drupal-8.6.x");
+        addFiles(cpd, "C:/corona/cpdcode/typescript");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();
@@ -62,7 +62,7 @@ public class TypeScriptCPDPerformanceTest {
     private static void addFiles(CPD cpd, String baseDir) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
-            Collection<File> files = FileUtils.listFiles(new File(baseDir), new String[] { "kt" }, true);
+            Collection<File> files = FileUtils.listFiles(new File(baseDir), new String[] { "ts" }, true);
             System.out.println(dateFormat.format(new Date()) + "Adding " + files.size() + " files to CPD tool");
             int fileCount = 0;
             for (File file : files) {

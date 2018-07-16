@@ -5,6 +5,7 @@
 package net.sourceforge.pmd.cpd;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class PygmentsTokenizer {
     private List<String> skipValues;
     private CPDLanguage language;
 
+    private static final String LEXER_SCRIPT_PATH = "tools" + File.separatorChar + "bin" + File.separatorChar + "lexer.py";
+    
     public PygmentsTokenizer() {
         super();
     }
@@ -66,8 +69,8 @@ public class PygmentsTokenizer {
     protected List<String> tokenizeFile(String filePath) {
         String executable = "python";
         String[] args = new String[3];
-        ClassLoader classLoader = getClass().getClassLoader();
-        args[0] = StringUtils.removeStart(classLoader.getResource("scripts/lexer.py").getPath(), "/");
+ 
+        args[0] = CoronaHome.getThrow() + File.separatorChar + LEXER_SCRIPT_PATH;
         args[1] = filePath;
         args[2] = language.toString();
         String string = executeProcessSyncNGetOutput(executable, args);

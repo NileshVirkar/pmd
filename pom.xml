@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>ACL-4.1.0.0-6.5.0-SNAPSHOT</version>
+    <version>ACL-1.4.1.0-6.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -252,7 +252,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
     <properties>
         <java.version>8</java.version>
-        <pmd.version>ACL-4.1.0.0-6.5.0-SNAPSHOT</pmd.version>
+        <pmd.version>ACL-1.4.1.0-6.5.0-SNAPSHOT</pmd.version>
         
         <!-- Workaround for https://youtrack.jetbrains.com/issue/IDEA-188690 -->
         <maven.compiler.source>1.${java.version}</maven.compiler.source>
@@ -971,31 +971,31 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-cpp</module>
         <module>pmd-cs</module>
         <module>pmd-dist</module>
-        <module>pmd-fortran</module>
+        <!-- <module>pmd-fortran</module> -->
         <module>pmd-go</module>
-        <module>pmd-groovy</module>
+        <!-- <module>pmd-groovy</module> -->
         <module>pmd-java</module>
 		<module>pmd-test</module>
         <module>pmd-javascript</module>
-        <module>pmd-jsp</module>
-        <module>pmd-matlab</module>
+        <!-- <module>pmd-jsp</module>
+        <module>pmd-matlab</module> -->
         <module>pmd-objectivec</module>
-        <module>pmd-perl</module>
+        <!-- <module>pmd-perl</module> -->
         <module>pmd-php</module>
         <module>pmd-plsql</module>
         <module>pmd-python</module>
-        <module>pmd-ruby</module>
+<!--         <module>pmd-ruby</module>
         <module>pmd-scala</module>
         <module>pmd-swift</module>
         <module>pmd-visualforce</module>
         <module>pmd-vm</module>
-        <module>pmd-xml</module>
+        <module>pmd-xml</module> -->
 
         <!-- java8 modules -->
-        <module>pmd-apex-jorje</module>
-        <module>pmd-apex</module>
+        <!-- <module>pmd-apex-jorje</module> -->
+        <!-- <module>pmd-apex</module> -->
         <module>pmd-java8</module>
-        <module>pmd-ui</module>
+        <!-- <module>pmd-ui</module> -->
         <module>pmd-doc</module>
         <module>pmd-typescript</module>
         <module>pmd-kotlin</module>
