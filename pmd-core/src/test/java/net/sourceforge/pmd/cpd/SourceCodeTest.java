@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.cpd.SourceCode.FileCodeLoader;
+import net.sourceforge.pmd.cpd.db.TokensDao;
 
 public class SourceCodeTest {
     private static final String BASE_RESOURCE_PATH = "src/test/resources/net/sourceforge/pmd/cpd/files/";
@@ -30,7 +31,7 @@ public class SourceCodeTest {
         };
         SourceCode sourceCode = new SourceCode(new SourceCode.StringCodeLoader(SAMPLE_CODE, "Foo.java"));
         assertEquals("Foo.java", sourceCode.getFileName());
-        tokenizer.tokenize(sourceCode, new Tokens());
+        tokenizer.tokenize(sourceCode, new TokensDao(null));
 
         assertEquals("Line 1", sourceCode.getSlice(1, 1));
         assertEquals("Line 2", sourceCode.getSlice(2, 2));

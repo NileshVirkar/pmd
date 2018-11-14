@@ -14,6 +14,8 @@ import java.util.Properties;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 /**
  * This class does a best-guess try-anything tokenization.
  *
@@ -30,7 +32,7 @@ public class CsTokenizer implements Tokenizer {
     }
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         Tokenizer tokenizer = new Tokenizer(sourceCode.getCodeBuffer().toString());
         Token token = tokenizer.getNextToken();
 
@@ -60,11 +62,11 @@ public class CsTokenizer implements Tokenizer {
                 }
             }
             if (!";".equals(token.image)) {
-                tokenEntries.add(new TokenEntry(token.image, sourceCode.getFileName(), token.lineNumber));
+                tokensDao.saveToken(new TokenEntry(token.image, sourceCode.getFileName(), token.lineNumber));
             }
             token = lookAhead;
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF());
         IOUtils.closeQuietly(tokenizer);
     }
 

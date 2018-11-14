@@ -11,6 +11,7 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.Token;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.apex.ApexJorjeLogging;
 import net.sourceforge.pmd.lang.ast.TokenMgrError;
 
@@ -35,7 +36,7 @@ public class ApexTokenizer implements Tokenizer {
     }
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder code = sourceCode.getCodeBuffer();
 
         ANTLRStringStream ass = new ANTLRStringStream(code.toString());
@@ -55,12 +56,12 @@ public class ApexTokenizer implements Tokenizer {
                         tokenText = tokenText.toLowerCase(Locale.ROOT);
                     }
                     TokenEntry tokenEntry = new TokenEntry(tokenText, sourceCode.getFileName(), token.getLine());
-                    tokenEntries.add(tokenEntry);
+                    tokensDao.saveToken(tokenEntry);
                 }
                 token = lexer.nextToken();
             }
         } finally {
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
         }
     }
 }

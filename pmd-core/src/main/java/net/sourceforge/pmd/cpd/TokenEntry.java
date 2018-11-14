@@ -14,12 +14,15 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     public static final TokenEntry EOF = new TokenEntry();
 
-    private int tokenSrcID;
+    private int id;
+    private String tokenSrcID;
     private int beginLine;
     private int index;
     private int identifier;
     private int hashCode;
-
+    private String type;
+    private String image;
+    
     private static final ThreadLocal<Map<String, Integer>> TOKENS = new ThreadLocal<Map<String, Integer>>() {
         @Override
         protected Map<String, Integer> initialValue() {
@@ -35,7 +38,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     private TokenEntry() {
         this.identifier = 0;
-        this.tokenSrcID = FilePathContainer.getFilePathContainer().setOrGetFilePath("EOFMarker");
+        this.tokenSrcID = "EOFMarker";
     }
 
     /**
@@ -44,11 +47,24 @@ public class TokenEntry implements Comparable<TokenEntry> {
      * @param tokenSrcID
      * @param beginLine the linenumber, 1-based.
      */
-    public TokenEntry(String image, String tokenSrcPath, int beginLine) {
-        setImage(image);
-        this.tokenSrcID = FilePathContainer.getFilePathContainer().setOrGetFilePath(tokenSrcPath);
+    public TokenEntry(String image, String tokenSrcID, int beginLine, int identifier) {
+        this.image = image;
+        this.tokenSrcID = tokenSrcID;
         this.beginLine = beginLine;
         this.index = TOKEN_COUNT.get().getAndIncrement();
+        this.identifier = identifier;
+    }
+
+    public TokenEntry(int id, String tokenSrcID, int beginLine, int index, int identifier, int hashCode, String type, String image) {
+        super();
+        this.id = id;
+        this.tokenSrcID = tokenSrcID;
+        this.beginLine = beginLine;
+        this.index = index;
+        this.identifier = identifier;
+        this.hashCode = hashCode;
+        this.type = type;
+        this.image = image;
     }
 
     public static TokenEntry getEOF() {
@@ -56,6 +72,11 @@ public class TokenEntry implements Comparable<TokenEntry> {
         return EOF;
     }
 
+    public static TokenEntry getEOF(String sourceFile) {
+        TOKEN_COUNT.get().getAndIncrement();
+        return new TokenEntry(0, sourceFile, 0, 0, 0, 0, "EOFMarker", "");
+    }
+    
     public static void clearImages() {
         TOKENS.get().clear();
         TOKENS.remove();
@@ -85,7 +106,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
         }
     }
 
-    public int getTokenSrcID() {
+    public String getTokenSrcID() {
         return tokenSrcID;
     }
 
@@ -97,8 +118,28 @@ public class TokenEntry implements Comparable<TokenEntry> {
         return this.identifier;
     }
 
-    public int getIndex() {
-        return this.index;
+//    public int getId() {
+//        return this.index;
+//    }
+
+    public int getId() {
+        return id - 1;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -108,6 +149,14 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     public void setHashCode(int hashCode) {
         this.hashCode = hashCode;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override
@@ -121,28 +170,30 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     @Override
     public int compareTo(TokenEntry other) {
-        return getIndex() - other.getIndex();
+        return getId() - other.getId();
     }
 
     @Override
     public String toString() {
-        if (this == EOF) {
-            return "EOF";
-        }
-        for (Map.Entry<String, Integer> e : TOKENS.get().entrySet()) {
-            if (e.getValue().intValue() == identifier) {
-                return e.getKey();
-            }
-        }
-        return "--unkown--";
+//        if (this == EOF) {
+//            return "EOF";
+//        }
+//        for (Map.Entry<String, Integer> e : TOKENS.get().entrySet()) {
+//            if (e.getValue().intValue() == identifier) {
+//                return e.getKey();
+//            }
+//        }
+//        return "--unkown--";
+        
+        return image;
     }
 
-    final void setImage(String image) {
-        Integer i = TOKENS.get().get(image);
-        if (i == null) {
-            i = TOKENS.get().size() + 1;
-            TOKENS.get().put(image, i);
-        }
-        this.identifier = i.intValue();
-    }
+//    final void setImage(String image) {
+//        Integer i = TOKENS.get().get(image);
+//        if (i == null) {
+//            i = TOKENS.get().size() + 1;
+//            TOKENS.get().put(image, i);
+//        }
+//        this.identifier = i.intValue();
+//    }
 }

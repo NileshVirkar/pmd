@@ -17,6 +17,8 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.lang3.StringUtils;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 public class PygmentsTokenizer {
     private List<String> skipKeys;
     private List<String> skipValues;
@@ -38,7 +40,7 @@ public class PygmentsTokenizer {
         this.skipValues = skipValues;
     }
 
-    public void tokenize(SourceCode tokens, Tokens tokenEntries) {
+    public void tokenize(SourceCode tokens, TokensDao tokensDao) {
         String fileName = tokens.getFileName();
         List<String> lextokens = tokenizeFile(fileName);
 
@@ -60,10 +62,10 @@ public class PygmentsTokenizer {
             } else if (value.contains("\\n")) {
                 i += getLinesFromMultiLComments(value);
             } else if (isValidToken(key, value)) {
-                tokenEntries.add(new TokenEntry(value, tokens.getFileName(), i));
+                tokensDao.saveToken(new TokenEntry(value, tokens.getFileName(), i, 5));
             }
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF());
     }
 
     protected List<String> tokenizeFile(String filePath) {

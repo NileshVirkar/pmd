@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.cpd.token.JavaCCTokenFilter;
 import net.sourceforge.pmd.cpd.token.TokenFilter;
 import net.sourceforge.pmd.lang.plsql.PLSQLTokenManager;
@@ -57,12 +58,12 @@ public class PLSQLTokenizer implements Tokenizer {
      * @param sourceCode
      *            PLSQL source in file, string or database (any suitable object
      *            that can return a Reader).
-     * @param tokenEntries
+     * @param tokensDao
      *            Derived based on PLSQL Abstract Syntax Tree (derived from
      *            PLDOc parser.)
      */
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         long encounteredTokens = 0;
         long addedTokens = 0;
 
@@ -94,11 +95,11 @@ public class PLSQLTokenizer implements Tokenizer {
                 image = String.valueOf(currentToken.kind);
             }
 
-            tokenEntries.add(new TokenEntry(image, fileName, currentToken.beginLine));
+            tokensDao.saveToken(new TokenEntry(image, fileName, currentToken.beginLine));
             addedTokens++;
             currentToken = (Token) tokenFilter.getNextToken();
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF());
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine(sourceCode.getFileName() + ": encountered " + encounteredTokens + " tokens;" + " added "
                     + addedTokens + " tokens");

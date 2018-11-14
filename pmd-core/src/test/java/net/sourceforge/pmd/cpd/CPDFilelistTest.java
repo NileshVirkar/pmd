@@ -21,7 +21,7 @@ public class CPDFilelistTest {
         CPDConfiguration arguments = new CPDConfiguration();
         arguments.setLanguage(new CpddummyLanguage());
         arguments.setFileListPath("src/test/resources/net/sourceforge/pmd/cpd/cli/filelist.txt");
-        CPD cpd = new CPD(arguments);
+        CPD cpd = new CPD(arguments, true);
         CPDCommandLineInterface.addSourceFilesToCPD(cpd, arguments);
         
         List<String> paths = cpd.getSourcePaths();
@@ -39,7 +39,7 @@ public class CPDFilelistTest {
         CPDConfiguration arguments = new CPDConfiguration();
         arguments.setLanguage(new CpddummyLanguage());
         arguments.setFileListPath("src/test/resources/net/sourceforge/pmd/cpd/cli/filelist2.txt");
-        CPD cpd = new CPD(arguments);
+        CPD cpd = new CPD(arguments, true);
         CPDCommandLineInterface.addSourceFilesToCPD(cpd, arguments);
         
         List<String> paths = cpd.getSourcePaths();

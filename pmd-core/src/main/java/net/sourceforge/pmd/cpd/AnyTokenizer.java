@@ -11,6 +11,8 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.io.IOUtils;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 /**
  * This class does a best-guess try-anything tokenization.
  *
@@ -20,7 +22,7 @@ public class AnyTokenizer implements Tokenizer {
     public static final String TOKENS = " \t!#$%^&*(){}-=+<>/\\`~;:";
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder sb = sourceCode.getCodeBuffer();
         BufferedReader reader = new BufferedReader(new CharArrayReader(sb.toString().toCharArray()));
         try {
@@ -31,7 +33,8 @@ public class AnyTokenizer implements Tokenizer {
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
                     if (!" ".equals(token) && !"\t".equals(token)) {
-                        tokenEntries.add(new TokenEntry(token, sourceCode.getFileName(), lineNumber));
+                        int identifier = tokensDao.getIdentifierForImage(token);
+                        tokensDao.saveToken(new TokenEntry(token, sourceCode.getFileName(), lineNumber, identifier));
                     }
                 }
                 // advance iteration variables
@@ -42,7 +45,7 @@ public class AnyTokenizer implements Tokenizer {
             ignored.printStackTrace();
         } finally {
             IOUtils.closeQuietly(reader);
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
         }
     }
 }

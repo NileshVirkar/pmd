@@ -671,7 +671,7 @@ public class GUI implements CPDListener {
 
             CPDConfiguration.setSystemProperties(config);
 
-            CPD cpd = new CPD(config);
+            CPD cpd = new CPD(config, true);
             cpd.setCpdListener(this);
             tokenizingFilesBar.setMinimum(0);
             phaseLabel.setText("");

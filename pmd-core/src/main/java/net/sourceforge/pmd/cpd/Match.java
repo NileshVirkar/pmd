@@ -109,7 +109,7 @@ public class Match implements Comparable<Match>, Iterable<Mark> {
     }
 
     public int getEndIndex() {
-        return getMark(0).getToken().getIndex() + getTokenCount() - 1;
+        return getMark(0).getToken().getId() + getTokenCount() - 1;
     }
 
     public void setMarkSet(Set<Mark> markSet) {

@@ -7,6 +7,8 @@ package net.sourceforge.pmd.cpd;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 /**
  * Simple tokenizer for KOTLIN.
  */
@@ -30,8 +32,8 @@ public class KotlinTokenizer extends PygmentsTokenizer implements Tokenizer {
     }
 
     @Override
-    public void tokenize(SourceCode tokens, Tokens tokenEntries) {
-        super.tokenize(tokens, tokenEntries);
+    public void tokenize(SourceCode tokens, TokensDao tokensDao) {
+        super.tokenize(tokens, tokensDao);
     }
 
     // private Deque<Character> commentTokens;

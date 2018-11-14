@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MatchCollector {
     private List<Match> matchList = new ArrayList<>();
     private Map<Integer, Map<Integer, Match>> matchTree = new TreeMap<>();
@@ -25,7 +27,7 @@ public class MatchCollector {
             TokenEntry mark1 = marks.get(i);
             for (int j = i + 1; j < marks.size(); j++) {
                 TokenEntry mark2 = marks.get(j);
-                int diff = mark1.getIndex() - mark2.getIndex();
+                int diff = mark1.getId() - mark2.getId();
                 if (-diff < ma.getMinimumTileSize()) {
                     continue;
                 }
@@ -54,25 +56,25 @@ public class MatchCollector {
             matchTree.put(dupes, matches);
             addNewMatch(mark1, mark2, dupes, matches);
         } else {
-            Match matchA = matchTree.get(dupes).get(mark1.getIndex());
-            Match matchB = matchTree.get(dupes).get(mark2.getIndex());
+            Match matchA = matchTree.get(dupes).get(mark1.getId());
+            Match matchB = matchTree.get(dupes).get(mark2.getId());
 
             if (matchA == null && matchB == null) {
                 addNewMatch(mark1, mark2, dupes, matches);
             } else if (matchA == null) {
                 matchB.addTokenEntry(mark1);
-                matches.put(mark1.getIndex(), matchB);
+                matches.put(mark1.getId(), matchB);
             } else if (matchB == null) {
                 matchA.addTokenEntry(mark2);
-                matches.put(mark2.getIndex(), matchA);
+                matches.put(mark2.getId(), matchA);
             }
         }
     }
 
     private void addNewMatch(TokenEntry mark1, TokenEntry mark2, int dupes, Map<Integer, Match> matches) {
         Match match = new Match(dupes, mark1, mark2);
-        matches.put(mark1.getIndex(), match);
-        matches.put(mark2.getIndex(), match);
+        matches.put(mark1.getId(), match);
+        matches.put(mark2.getId(), match);
         matchList.add(match);
     }
 
@@ -83,7 +85,7 @@ public class MatchCollector {
     }
 
     private boolean hasPreviousDupe(TokenEntry mark1, TokenEntry mark2) {
-        if (mark1.getIndex() == 0) {
+        if (mark1.getId() == 0) {
             return false;
         }
         return !matchEnded(ma.tokenAt(-1, mark1), ma.tokenAt(-1, mark2));
@@ -98,6 +100,7 @@ public class MatchCollector {
     }
 
     private boolean matchEnded(TokenEntry token1, TokenEntry token2) {
-        return token1.getIdentifier() != token2.getIdentifier() || token1 == TokenEntry.EOF || token2 == TokenEntry.EOF;
+        // matched
+        return token1.getIdentifier() != token2.getIdentifier() || StringUtils.equalsAnyIgnoreCase(token1.getType(), "EOFMarker") || StringUtils.equalsAnyIgnoreCase(token2.getType(), "EOFMarker");
     }
 }

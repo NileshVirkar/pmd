@@ -7,6 +7,7 @@ package net.sourceforge.pmd.cpd;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.groovy.antlr.parser.GroovyLexer;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.ast.TokenMgrError;
 
 import groovyjarjarantlr.Token;
@@ -19,7 +20,7 @@ import groovyjarjarantlr.TokenStreamException;
 public class GroovyTokenizer implements Tokenizer {
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
 
         GroovyLexer lexer = new GroovyLexer(IOUtils.toInputStream(buffer.toString()));
@@ -31,7 +32,7 @@ public class GroovyTokenizer implements Tokenizer {
             while (token.getType() != Token.EOF_TYPE) {
                 TokenEntry tokenEntry = new TokenEntry(token.getText(), sourceCode.getFileName(), token.getLine());
 
-                tokenEntries.add(tokenEntry);
+                tokensDao.saveToken(tokenEntry);
                 token = tokenStream.nextToken();
             }
         } catch (TokenStreamException err) {
@@ -43,7 +44,7 @@ public class GroovyTokenizer implements Tokenizer {
                     + ", column " + lexer.getColumn() + ".  Encountered: " + err.getMessage(),
                     TokenMgrError.LEXICAL_ERROR);
         } finally {
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
         }
     }
 }

@@ -13,12 +13,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+//@Ignore
 public class CPDPerformanceTest {
 
     //public static void main(String[] args) {
@@ -29,12 +29,13 @@ public class CPDPerformanceTest {
         CPDConfiguration cpdConfiguration = new CPDConfiguration();
         Language language = new JavaLanguage();
 
-        cpdConfiguration.setMinimumTileSize(75);
+        cpdConfiguration.setMinimumTileSize(4);
         cpdConfiguration.setLanguage(language);
-        cpdConfiguration.setSkipLexicalErrors(false);
+        cpdConfiguration.setSkipLexicalErrors(true);
 
-        CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/jeditcpd/org/gjt/sp/jedit/syntax");
+        CPD cpd = new CPD(cpdConfiguration, true);
+        addFiles(cpd, "C:/corona/cpdcode/java/cpd1");
+        //addFiles(cpd, "C:/corona/cpdcode/java/cpd1");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();
@@ -46,14 +47,61 @@ public class CPDPerformanceTest {
             matches.add(matchesIter.next());
         }
         System.out.println(matches.size());
-        // for (Match match : matches) {
-        // Set<Mark> marks = match.getMarkSet();
-        // for (Mark mark : marks) {
-        // System.out.println(mark.toString());
-        // }
-        // }
+
+        //cpd.deleteDb();
+
+//        for (Match match : matches) {
+//            Set<Mark> marks = match.getMarkSet();
+//            for (Mark mark : marks) {
+//                System.out.println(mark.toString());
+//            }
+//        }
     }
 
+    //@Test
+    public void cpdtestIncremental() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        CPDConfiguration cpdConfiguration = new CPDConfiguration();
+        Language language = new JavaLanguage();
+
+        cpdConfiguration.setMinimumTileSize(5);
+        cpdConfiguration.setLanguage(language);
+        cpdConfiguration.setSkipLexicalErrors(true);
+
+        CPD cpd = new CPD(cpdConfiguration, false);
+        //addFiles(cpd, "C:/corona/jedit5.3.0source/jEdit/installer");
+        try {
+            System.out.println(dateFormat.format(new Date()) + "Adding file");
+            cpd.add(new File("C:/corona/cpdcode/java/cpd1/DemoCode.java"));
+            System.out.println(dateFormat.format(new Date()) + "Adding file done");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        long startTime = System.nanoTime();
+        System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
+        cpd.go();
+        System.out.println(dateFormat.format(new Date()) + "Finished clone detection tool");
+
+        List<Match> matches = new ArrayList<>();
+        Iterator<Match> matchesIter = cpd.getMatches();
+        while (matchesIter.hasNext()) {
+            matches.add(matchesIter.next());
+        }
+        System.out.println(matches.size());
+
+        //cpd.deleteDb();
+
+//        for (Match match : matches) {
+//            Set<Mark> marks = match.getMarkSet();
+//            for (Mark mark : marks) {
+//                System.out.println(mark.toString());
+//            }
+//        }
+    }
+
+    
     private static void addFiles(CPD cpd, String baseDir) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {

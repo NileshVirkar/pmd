@@ -9,6 +9,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.cpd.token.JavaCCTokenFilter;
 import net.sourceforge.pmd.lang.LanguageRegistry;
 import net.sourceforge.pmd.lang.LanguageVersionHandler;
@@ -34,17 +35,17 @@ public class JavaTokenizer implements Tokenizer {
     }
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         final String fileName = sourceCode.getFileName();
         final JavaTokenFilter tokenFilter = createTokenFilter(sourceCode);
         final ConstructorDetector constructorDetector = new ConstructorDetector(ignoreIdentifiers);
 
         Token currentToken = (Token) tokenFilter.getNextToken();
         while (currentToken != null) {
-            processToken(tokenEntries, fileName, currentToken, constructorDetector);
+            processToken(tokensDao, fileName, currentToken, constructorDetector);
             currentToken = (Token) tokenFilter.getNextToken();
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF(sourceCode.getFileName()));
     }
 
     private JavaTokenFilter createTokenFilter(final SourceCode sourceCode) {
@@ -57,11 +58,11 @@ public class JavaTokenizer implements Tokenizer {
         return new JavaTokenFilter(tokenMgr, ignoreAnnotations);
     }
 
-    private void processToken(Tokens tokenEntries, String fileName, Token currentToken,
+    private void processToken(TokensDao tokensDao, String fileName, Token currentToken,
             ConstructorDetector constructorDetector) {
         String image = currentToken.image;
 
-        constructorDetector.restoreConstructorToken(tokenEntries, currentToken);
+        //constructorDetector.restoreConstructorToken(tokenEntries, currentToken);
 
         if (ignoreLiterals && (currentToken.kind == JavaParserConstants.STRING_LITERAL
                 || currentToken.kind == JavaParserConstants.CHARACTER_LITERAL
@@ -75,7 +76,9 @@ public class JavaTokenizer implements Tokenizer {
 
         constructorDetector.processToken(currentToken);
 
-        tokenEntries.add(new TokenEntry(image, fileName, currentToken.beginLine));
+        int identifier = tokensDao.getIdentifierForImage(image);
+        tokensDao.saveToken(new TokenEntry(image, fileName, currentToken.beginLine, identifier));
+        //tokenEntries.add(new TokenEntry(image, fileName, currentToken.beginLine));
     }
 
     public void setIgnoreLiterals(boolean ignore) {
@@ -274,22 +277,22 @@ public class JavaTokenizer implements Tokenizer {
             storeNextIdentifier = true;
         }
 
-        public void restoreConstructorToken(Tokens tokenEntries, Token currentToken) {
-            if (!ignoreIdentifiers) {
-                return;
-            }
-
-            if (currentToken.kind == JavaParserConstants.LPAREN) {
-                // was the previous token a constructor? If so, restore the
-                // identifier
-                if (!classMembersIndentations.isEmpty()
-                        && classMembersIndentations.peek().name.equals(prevIdentifier)) {
-                    int lastTokenIndex = tokenEntries.size() - 1;
-                    TokenEntry lastToken = tokenEntries.getTokens().get(lastTokenIndex);
-                    lastToken.setImage(prevIdentifier);
-                }
-            }
-        }
+//        public void restoreConstructorToken(Tokens tokenEntries, Token currentToken) {
+//            if (!ignoreIdentifiers) {
+//                return;
+//            }
+//
+//            if (currentToken.kind == JavaParserConstants.LPAREN) {
+//                // was the previous token a constructor? If so, restore the
+//                // identifier
+//                if (!classMembersIndentations.isEmpty()
+//                        && classMembersIndentations.peek().name.equals(prevIdentifier)) {
+//                    int lastTokenIndex = tokenEntries.size() - 1;
+//                    TokenEntry lastToken = tokenEntries.getTokens().get(lastTokenIndex);
+//                    lastToken.setImage(prevIdentifier);
+//                }
+//            }
+//        }
     }
 
     private static class TypeDeclaration {

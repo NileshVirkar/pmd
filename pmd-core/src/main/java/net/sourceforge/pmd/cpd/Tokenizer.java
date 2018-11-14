@@ -6,6 +6,8 @@ package net.sourceforge.pmd.cpd;
 
 import java.io.IOException;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 public interface Tokenizer {
     String IGNORE_LITERALS = "ignore_literals";
     String IGNORE_IDENTIFIERS = "ignore_identifiers";
@@ -35,5 +37,5 @@ public interface Tokenizer {
 
     String DEFAULT_SKIP_BLOCKS_PATTERN = "#if 0|#endif";
 
-    void tokenize(SourceCode sourceCode, Tokens tokenEntries) throws IOException;
+    void tokenize(SourceCode sourceCode, TokensDao tokensDao) throws IOException;
 }

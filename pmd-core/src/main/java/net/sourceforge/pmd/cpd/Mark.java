@@ -18,7 +18,7 @@ public class Mark implements Comparable<Mark> {
     }
 
     public String getFilename() {
-        return FilePathContainer.getFilePathContainer().getFilePath(this.token.getTokenSrcID());
+        return this.token.getTokenSrcID();
     }
 
     public int getBeginLine() {

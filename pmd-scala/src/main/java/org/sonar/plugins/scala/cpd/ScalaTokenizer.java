@@ -28,7 +28,7 @@ import org.sonar.plugins.scala.compiler.Token;
 import net.sourceforge.pmd.cpd.SourceCode;
 import net.sourceforge.pmd.cpd.TokenEntry;
 import net.sourceforge.pmd.cpd.Tokenizer;
-import net.sourceforge.pmd.cpd.Tokens;
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.ast.TokenMgrError;
 
 /**
@@ -38,7 +38,7 @@ import net.sourceforge.pmd.lang.ast.TokenMgrError;
  */
 public final class ScalaTokenizer implements Tokenizer {
 
-    public void tokenize(SourceCode source, Tokens cpdTokens) {
+    public void tokenize(SourceCode source, TokensDao cpdTokens) {
         String filename = source.getFileName();
 
         try {

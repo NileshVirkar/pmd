@@ -9,6 +9,7 @@ import java.io.StringReader;
 
 import org.apache.commons.io.IOUtils;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.cpd.token.JavaCCTokenFilter;
 import net.sourceforge.pmd.cpd.token.TokenFilter;
 import net.sourceforge.pmd.lang.LanguageRegistry;
@@ -24,7 +25,7 @@ import net.sourceforge.pmd.util.IOUtil;
 public class PythonTokenizer implements Tokenizer {
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
         Reader reader = null;
         try {
@@ -37,15 +38,15 @@ public class PythonTokenizer implements Tokenizer {
                     .getTokenManager(sourceCode.getFileName(), reader));
             Token currentToken = (Token) tokenFilter.getNextToken();
             while (currentToken != null) {
-                tokenEntries.add(new TokenEntry(currentToken.image, sourceCode.getFileName(), currentToken.beginLine));
+                tokensDao.saveToken(new TokenEntry(currentToken.image, sourceCode.getFileName(), currentToken.beginLine));
                 currentToken = (Token) tokenFilter.getNextToken();
             }
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
             System.err.println("Added " + sourceCode);
         } catch (TokenMgrError err) {
             err.printStackTrace();
             System.err.println("Skipping " + sourceCode + " due to parse error");
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
         } finally {
             IOUtils.closeQuietly(reader);
         }

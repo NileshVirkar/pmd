@@ -28,11 +28,11 @@ public abstract class AbstractTokenizerTest {
 
     public abstract String getSampleCode() throws IOException;
 
-    protected void tokenizeTest() throws IOException {
-        Tokens tokens = new Tokens();
-        tokenizer.tokenize(sourceCode, tokens);
-        List<TokenEntry> entries = tokens.getTokens();
-        assertEquals(expectedTokenCount, entries.size());
-    }
+//    protected void tokenizeTest() throws IOException {
+//        Tokens tokens = new Tokens();
+//        tokenizer.tokenize(sourceCode, tokens);
+//        List<TokenEntry> entries = tokens.getTokens();
+//        assertEquals(expectedTokenCount, entries.size());
+//    }
 
 }

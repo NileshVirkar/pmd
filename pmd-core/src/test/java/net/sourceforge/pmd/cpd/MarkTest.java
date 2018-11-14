@@ -16,7 +16,7 @@ public class MarkTest {
     public void testSimple() {
         String filename = "/var/Foo.java";
         int beginLine = 1;
-        TokenEntry token = new TokenEntry("public", "/var/Foo.java", 1);
+        TokenEntry token = new TokenEntry("public", "/var/Foo.java", 1, 5);
 
         Mark mark = new Mark(token);
         int lineCount = 10;

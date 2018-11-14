@@ -9,6 +9,7 @@ import java.io.StringReader;
 
 import org.apache.commons.io.IOUtils;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.LanguageRegistry;
 import net.sourceforge.pmd.lang.LanguageVersionHandler;
 import net.sourceforge.pmd.lang.TokenManager;
@@ -22,7 +23,7 @@ import net.sourceforge.pmd.util.IOUtil;
  */
 public class VfTokenizer implements Tokenizer {
 
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
         LanguageVersionHandler languageVersionHandler = LanguageRegistry.getLanguage(VfLanguageModule.NAME)
                 .getDefaultVersion().getLanguageVersionHandler();
@@ -36,13 +37,13 @@ public class VfTokenizer implements Tokenizer {
             Token currentToken = (Token) tokenMgr.getNextToken();
 
             while (currentToken.image.length() > 0) {
-                tokenEntries.add(new TokenEntry(String.valueOf(currentToken.kind), sourceCode.getFileName(),
+                tokensDao.saveToken(new TokenEntry(String.valueOf(currentToken.kind), sourceCode.getFileName(),
                         currentToken.beginLine));
                 currentToken = (Token) tokenMgr.getNextToken();
             }
         } finally {
             IOUtils.closeQuietly(reader);
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF());
     }
 }

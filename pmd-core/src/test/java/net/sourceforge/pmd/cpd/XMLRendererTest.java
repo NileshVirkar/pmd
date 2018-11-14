@@ -143,7 +143,7 @@ public class XMLRendererTest {
     }
 
     private Mark createMark(String image, String tokenSrcID, int beginLine, int lineCount, String code) {
-        Mark result = new Mark(new TokenEntry(image, tokenSrcID, beginLine));
+        Mark result = new Mark(new TokenEntry(image, tokenSrcID, beginLine, 5));
 
         result.setLineCount(lineCount);
         result.setSourceCode(new SourceCode(new SourceCode.StringCodeLoader(code)));

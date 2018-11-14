@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.ast.TokenMgrError;
 import net.sourceforge.pmd.lang.swift.antlr4.SwiftLexer;
 
@@ -20,7 +21,7 @@ import net.sourceforge.pmd.lang.swift.antlr4.SwiftLexer;
 public class SwiftTokenizer implements Tokenizer {
 
     @Override
-    public void tokenize(SourceCode sourceCode, Tokens tokenEntries) {
+    public void tokenize(SourceCode sourceCode, TokensDao tokensDao) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
 
         try {
@@ -35,7 +36,7 @@ public class SwiftTokenizer implements Tokenizer {
                 if (token.getChannel() != Lexer.HIDDEN) {
                     TokenEntry tokenEntry = new TokenEntry(token.getText(), sourceCode.getFileName(), token.getLine());
 
-                    tokenEntries.add(tokenEntry);
+                    tokensDao.saveToken(tokenEntry);
                 }
                 token = lexer.nextToken();
             }
@@ -48,7 +49,7 @@ public class SwiftTokenizer implements Tokenizer {
                     + ", column " + err.getColumn() + ".  Encountered: " + err.getMessage(),
                     TokenMgrError.LEXICAL_ERROR);
         } finally {
-            tokenEntries.add(TokenEntry.getEOF());
+            tokensDao.saveToken(TokenEntry.getEOF());
         }
     }
 

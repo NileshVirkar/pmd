@@ -7,6 +7,8 @@ package net.sourceforge.pmd.cpd;
 import java.util.List;
 import java.util.Locale;
 
+import net.sourceforge.pmd.cpd.db.TokensDao;
+
 /**
  *
  * @author Zev Blut zb@ubit.com
@@ -41,7 +43,7 @@ public abstract class AbstractTokenizer implements Tokenizer {
     private boolean downcaseString = true;
 
     @Override
-    public void tokenize(SourceCode tokens, Tokens tokenEntries) {
+    public void tokenize(SourceCode tokens, TokensDao tokensDao) {
         code = tokens.getCode();
 
         for (lineNumber = 0; lineNumber < code.size(); lineNumber++) {
@@ -58,12 +60,13 @@ public abstract class AbstractTokenizer implements Tokenizer {
                     // if ( CPD.debugEnable ) {
                     // System.out.println("Token added:" + token.toString());
                     // }
-                    tokenEntries.add(new TokenEntry(token.toString(), tokens.getFileName(), lineNumber + 1));
+                    int identifier = tokensDao.getIdentifierForImage(token.toString());
+                    tokensDao.saveToken(new TokenEntry(token.toString(), tokens.getFileName(), lineNumber + 1, identifier));
 
                 }
             }
         }
-        tokenEntries.add(TokenEntry.getEOF());
+        tokensDao.saveToken(TokenEntry.getEOF());
     }
 
     private int getTokenFromLine(StringBuilder token, int loc) {
