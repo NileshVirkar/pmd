@@ -34,7 +34,7 @@ public class CPDPerformanceTest {
         cpdConfiguration.setSkipLexicalErrors(true);
 
         CPD cpd = new CPD(cpdConfiguration, true);
-        addFiles(cpd, "C:/corona/cpdcode/java/cpd1");
+        addFiles(cpd, "C:/corona/liferay-portal-master");
         //addFiles(cpd, "C:/corona/cpdcode/java/cpd1");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");

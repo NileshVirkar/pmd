@@ -134,6 +134,10 @@ public class TokenEntry implements Comparable<TokenEntry> {
         this.id = id;
     }
 
+    public void setTokenSrcID(String tokenSrcID) {
+        this.tokenSrcID = tokenSrcID;
+    }
+
     public String getType() {
         return type;
     }
@@ -172,7 +176,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
     public int compareTo(TokenEntry other) {
         return getId() - other.getId();
     }
-
+    
     @Override
     public String toString() {
 //        if (this == EOF) {
@@ -188,12 +192,12 @@ public class TokenEntry implements Comparable<TokenEntry> {
         return image;
     }
 
-//    final void setImage(String image) {
-//        Integer i = TOKENS.get().get(image);
-//        if (i == null) {
-//            i = TOKENS.get().size() + 1;
-//            TOKENS.get().put(image, i);
-//        }
-//        this.identifier = i.intValue();
-//    }
+    final void setImage(String image) {
+        Integer i = TOKENS.get().get(image);
+        if (i == null) {
+            i = TOKENS.get().size() + 1;
+            TOKENS.get().put(image, i);
+        }
+        this.identifier = i.intValue();
+    }
 }
