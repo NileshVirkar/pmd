@@ -42,7 +42,7 @@ public class MatchAlgorithmTest {
         Map<String, SourceCode> codeMap = new HashMap<>();
         codeMap.put("Foo.java", sourceCode);
 
-        MatchAlgorithm matchAlgorithm = new MatchAlgorithm(tokens, 5);
+        MatchAlgorithm matchAlgorithm = new MatchAlgorithm(tokens, null, 5);
         matchAlgorithm.findMatches();
         Iterator<Match> matches = matchAlgorithm.matches();
         Match match = matches.next();
@@ -74,7 +74,7 @@ public class MatchAlgorithmTest {
         Map<String, SourceCode> codeMap = new HashMap<>();
         codeMap.put("Foo.java", sourceCode);
 
-        MatchAlgorithm matchAlgorithm = new MatchAlgorithm(tokens, 5);
+        MatchAlgorithm matchAlgorithm = new MatchAlgorithm(tokens, null, 5);
         matchAlgorithm.findMatches();
         Iterator<Match> matches = matchAlgorithm.matches();
         Match match = matches.next();

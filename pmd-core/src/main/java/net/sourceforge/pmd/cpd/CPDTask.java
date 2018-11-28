@@ -86,7 +86,7 @@ public class CPDTask extends Task {
             config.setSkipDuplicates(skipDuplicateFiles);
             config.setSkipLexicalErrors(skipLexicalErrors);
 
-            CPD cpd = new CPD(config);
+            CPD cpd = new CPD(config, true);
             tokenizeFiles(cpd);
 
             log("Starting to analyze code", Project.MSG_INFO);

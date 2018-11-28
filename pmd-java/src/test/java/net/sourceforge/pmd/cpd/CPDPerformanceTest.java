@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+//@Ignore
 public class CPDPerformanceTest {
 
     //public static void main(String[] args) {
@@ -31,10 +31,10 @@ public class CPDPerformanceTest {
 
         cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
-        cpdConfiguration.setSkipLexicalErrors(false);
+        cpdConfiguration.setSkipLexicalErrors(true);
 
-        CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/jeditcpd/org/gjt/sp/jedit/syntax");
+        CPD cpd = new CPD(cpdConfiguration, true);
+        addFiles(cpd, "C:/corona/liferay-portal-master");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();

@@ -50,8 +50,13 @@ public class JavaTokenizer implements Tokenizer {
     private JavaTokenFilter createTokenFilter(final SourceCode sourceCode) {
         final StringBuilder stringBuilder = sourceCode.getCodeBuffer();
         // Note that Java version is irrelevant for tokenizing
+        System.err.println("java version test:");
         final LanguageVersionHandler languageVersionHandler = LanguageRegistry.getLanguage(JavaLanguageModule.NAME)
                 .getVersion("1.4").getLanguageVersionHandler();
+        System.err.println("java version test:" + LanguageRegistry.getLanguage(JavaLanguageModule.NAME)
+                .getVersion("1.4"));
+        System.err.println("java version test:" + LanguageRegistry.getLanguage(JavaLanguageModule.NAME));
+        
         final TokenManager tokenMgr = languageVersionHandler.getParser(languageVersionHandler.getDefaultParserOptions())
                 .getTokenManager(sourceCode.getFileName(), new StringReader(stringBuilder.toString()));
         return new JavaTokenFilter(tokenMgr, ignoreAnnotations);

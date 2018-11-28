@@ -19,7 +19,8 @@ public class TokenEntry implements Comparable<TokenEntry> {
     private int index;
     private int identifier;
     private int hashCode;
-
+    private String image;
+    
     private static final ThreadLocal<Map<String, Integer>> TOKENS = new ThreadLocal<Map<String, Integer>>() {
         @Override
         protected Map<String, Integer> initialValue() {
@@ -46,6 +47,7 @@ public class TokenEntry implements Comparable<TokenEntry> {
      */
     public TokenEntry(String image, String tokenSrcPath, int beginLine) {
         setImage(image);
+        this.image = image;
         this.tokenSrcID = FilePathContainer.getFilePathContainer().setOrGetFilePath(tokenSrcPath);
         this.beginLine = beginLine;
         this.index = TOKEN_COUNT.get().getAndIncrement();
@@ -99,6 +101,14 @@ public class TokenEntry implements Comparable<TokenEntry> {
 
     public int getIndex() {
         return this.index;
+    }
+
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     @Override

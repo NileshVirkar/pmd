@@ -34,7 +34,7 @@ public class CPDTest {
     public void setup() throws Exception {
         CPDConfiguration theConfiguration = new CPDConfiguration();
         theConfiguration.postContruct();
-        cpd = new CPD(theConfiguration);
+        cpd = new CPD(theConfiguration, true);
 
         // Symlinks are not well supported under Windows - so the tests are
         // simply not executed here.

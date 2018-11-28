@@ -7,6 +7,8 @@ package net.sourceforge.pmd.cpd;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,7 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
+import org.h2.tools.DeleteDbFiles;
 
+import net.sourceforge.pmd.cpd.db.ConnectionProxy;
+import net.sourceforge.pmd.cpd.db.DbUtils;
+import net.sourceforge.pmd.cpd.db.IConnectionProxy;
+import net.sourceforge.pmd.cpd.db.TokensDao;
 import net.sourceforge.pmd.lang.ast.TokenMgrError;
 import net.sourceforge.pmd.util.FileFinder;
 import net.sourceforge.pmd.util.database.DBMSMetadata;
@@ -33,12 +40,32 @@ public class CPD {
     private Tokens tokens = new Tokens();
     private MatchAlgorithm matchAlgorithm;
     private Set<String> current = new HashSet<>();
-
-    public CPD(CPDConfiguration theConfiguration) {
+    private TokensDao tokensDao;
+    private List<String> filelist = new ArrayList<>();
+    private boolean isFullScan;
+    
+    public CPD(CPDConfiguration theConfiguration, boolean isFullScan) {
         configuration = theConfiguration;
         // before we start any tokenizing (add(File...)), we need to reset the
         // static TokenEntry status
         TokenEntry.clearImages();
+        try {
+            if(isFullScan) {
+                deleteDb();
+                try {
+                    tokensDao = new TokensDao(getAutoCommitConnection(), isFullScan);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else {
+                tokensDao = new TokensDao(getAutoCommitConnection(), isFullScan);   
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.isFullScan = isFullScan;
     }
 
     public void setCpdListener(CPDListener cpdListener) {
@@ -46,8 +73,10 @@ public class CPD {
     }
 
     public void go() {
-        matchAlgorithm = new MatchAlgorithm(tokens, configuration.getMinimumTileSize(), listener);
+        matchAlgorithm = new MatchAlgorithm(tokens, tokensDao, configuration.getMinimumTileSize(), listener);
         matchAlgorithm.findMatches();
+        
+        tokensDao.saveRemainingToken();
     }
 
     public Iterator<Match> getMatches() {
@@ -174,5 +203,19 @@ public class CPD {
 
     public static void main(String[] args) {
         CPDCommandLineInterface.main(args);
+    }
+    
+    public IConnectionProxy getAutoCommitConnection() {
+        try {
+            Connection conn = DbUtils.getRawConnection("jdbc:h2:C:/temp/cpd/cpd;user=cpd;password=cpd;WRITE_DELAY=25000", "cpd", "cpd");
+            conn.setAutoCommit(true);
+            return new ConnectionProxy(conn);
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    
+    private void deleteDb() {
+        DeleteDbFiles.execute("C:/temp/cpd", "cpd", false);
     }
 }

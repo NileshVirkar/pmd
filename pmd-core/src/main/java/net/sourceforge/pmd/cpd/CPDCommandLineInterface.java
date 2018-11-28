@@ -80,7 +80,7 @@ public final class CPDCommandLineInterface {
         // Pass extra parameters as System properties to allow language
         // implementation to retrieve their associate values...
         CPDConfiguration.setSystemProperties(arguments);
-        CPD cpd = new CPD(arguments);
+        CPD cpd = new CPD(arguments, true);
 
         try {
             addSourceFilesToCPD(cpd, arguments);
