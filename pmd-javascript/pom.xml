@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>pmd-javascript</artifactId>
     <name>PMD JavaScript</name>
-
+    <version>${pmd.version}</version>
     <parent>
         <groupId>net.sourceforge.pmd</groupId>
         <artifactId>pmd</artifactId>
-        <version>ACL-1.4.1.0-6.5.0-SNAPSHOT</version>
+        <version>develop</version>
     </parent>
 
     <build>

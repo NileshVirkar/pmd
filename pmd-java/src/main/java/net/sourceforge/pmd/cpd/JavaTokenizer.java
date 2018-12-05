@@ -9,6 +9,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import org.apache.logging.log4j.Logger;
+
 import net.sourceforge.pmd.cpd.token.JavaCCTokenFilter;
 import net.sourceforge.pmd.lang.LanguageRegistry;
 import net.sourceforge.pmd.lang.LanguageVersionHandler;
@@ -20,6 +22,8 @@ import net.sourceforge.pmd.lang.java.ast.Token;
 
 public class JavaTokenizer implements Tokenizer {
 
+    private static Logger logger = org.apache.logging.log4j.LogManager.getLogger(JavaTokenizer.class);
+    
     public static final String CPD_START = "\"CPD-START\"";
     public static final String CPD_END = "\"CPD-END\"";
 
@@ -50,8 +54,11 @@ public class JavaTokenizer implements Tokenizer {
     private JavaTokenFilter createTokenFilter(final SourceCode sourceCode) {
         final StringBuilder stringBuilder = sourceCode.getCodeBuffer();
         // Note that Java version is irrelevant for tokenizing
+        logger.info("Inside createTokenFilter method");
         final LanguageVersionHandler languageVersionHandler = LanguageRegistry.getLanguage(JavaLanguageModule.NAME)
                 .getVersion("1.4").getLanguageVersionHandler();
+        logger.info("Language:" + LanguageRegistry.getLanguage(JavaLanguageModule.NAME));
+        logger.info("Language Version:" + LanguageRegistry.getLanguage(JavaLanguageModule.NAME).getVersion("1.4"));
         final TokenManager tokenMgr = languageVersionHandler.getParser(languageVersionHandler.getDefaultParserOptions())
                 .getTokenManager(sourceCode.getFileName(), new StringReader(stringBuilder.toString()));
         return new JavaTokenFilter(tokenMgr, ignoreAnnotations);

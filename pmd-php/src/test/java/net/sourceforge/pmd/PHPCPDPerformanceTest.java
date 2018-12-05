@@ -24,7 +24,7 @@ import net.sourceforge.pmd.cpd.Language;
 import net.sourceforge.pmd.cpd.Match;
 import net.sourceforge.pmd.cpd.PHPLanguage;
 
-@Ignore
+//@Ignore
 public class PHPCPDPerformanceTest {
 
     @Test

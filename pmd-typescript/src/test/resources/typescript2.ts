@@ -2,7 +2,7 @@
 namespace ts.JsTyping {
 
 function getGreeting() {
-    var name2:string = "string"
+    var name:string = "string"
     return "howdy";
 }
 class MyGreeter extends Greeter { }
