@@ -128,7 +128,7 @@ boolean CheckHeredocEnd(String text)
     return result;
 }}
 
-SeaWhitespace:  [ \t\r\n]+ -> channel(HIDDEN);
+SeaWhitespace:  [ \t\r\n]+ -> skip;
 HtmlText:       ~[<#]+;
 XmlStart:       '<' '?' 'xml' -> pushMode(XML);
 PHPStartEcho:   PhpStartEchoFragment -> type(Echo), pushMode(PHP);
@@ -221,7 +221,7 @@ mode PHP;
 
 PHPEnd:             ('?' | '%' {AspTags}?) '>'
       |             '</script>' {_phpScript}?;
-Whitespace:         [ \t\r\n]+ -> channel(SkipChannel);
+Whitespace:         [ \t\r\n]+ -> skip;
 MultiLineComment:   '/*' .*? '*/' -> channel(PhpComments);
 SingleLineComment:  '//' ~[\r\n]* -> channel(SkipChannel), pushMode(SingleLineCommentMode);
 ShellStyleComment:  '#' -> channel(SkipChannel), pushMode(SingleLineCommentMode);

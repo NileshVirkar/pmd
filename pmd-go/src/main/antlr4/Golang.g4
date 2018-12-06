@@ -1300,7 +1300,7 @@ fragment UNICODE_LETTER
 // Whitespace and comments
 //
 
-WS  :  [ \t]+ -> channel(HIDDEN)
+WS  :  [ \t\r\n\u000C]+ -> skip
     ;
 
 COMMENT

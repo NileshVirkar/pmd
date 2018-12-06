@@ -20,7 +20,7 @@ public class PHPTokenizer extends PygmentsTokenizer implements Tokenizer {
     private List<Integer> skipValues;
     
     public PHPTokenizer() {
-        skipValues = Arrays.asList(39, 40, 41);
+        skipValues = Arrays.asList(40, 41);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PHPTokenizer extends PygmentsTokenizer implements Tokenizer {
             for (Token token : list) {
                 System.out.println(token.getText() + ":" + token.getType() + ":" + token.getLine());
                 
-                if(token.getType() != 40 && token.getType() != 41 && token.getType() != 39 && token.getType() != 4 && token.getLine() > 0) {
+                if(! skipValues.contains(token.getType()) && token.getLine() > 0) {
                     tokenEntries.add(new TokenEntry(token.getText(), tokens.getFileName(), token.getLine()));
                 }
             }
