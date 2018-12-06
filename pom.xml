@@ -253,7 +253,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
 	<properties>
 		<java.version>8</java.version>
-		<pmd.version>ACL-1.6.0.0-6.5.0-SNAPSHOT</pmd.version>
+		<pmd.version>ACL-1.6.0.0-6.5.0</pmd.version>
 
 		<!-- Workaround for https://youtrack.jetbrains.com/issue/IDEA-188690 -->
 		<maven.compiler.source>1.${java.version}</maven.compiler.source>
