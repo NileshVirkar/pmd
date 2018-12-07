@@ -30,7 +30,7 @@ public class KotlinTokenizer implements Tokenizer {
             KotlinLexer kotlinLexer = new KotlinLexer(CharStreams.fromFileName(tokens.getFileName()));
             List<Token> list = (List<Token>) kotlinLexer.getAllTokens();
             for (Token token : list) {
-                System.out.println(token.getText() + ":" + token.getType() + ":" + token.getLine());
+                //System.out.println(token.getText() + ":" + token.getType() + ":" + token.getLine());
                 
                 if(! skipValues.contains(token.getType()) && token.getLine() > 0) {
                     tokenEntries.add(new TokenEntry(token.getText(), tokens.getFileName(), token.getLine()));
