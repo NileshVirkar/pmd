@@ -15,21 +15,21 @@ public class CPDCommentTest {
     @Test
     public void phpCpdCommentTest() {
         CPDConfiguration cpdConfiguration = new CPDConfiguration();
-        Language language = new GoLanguage();
+        Language language = new EcmascriptLanguage();
 
-        cpdConfiguration.setMinimumTileSize(75);
+        cpdConfiguration.setMinimumTileSize(25);
         cpdConfiguration.setLanguage(language);
         cpdConfiguration.setSkipLexicalErrors(true);
 
         CPD cpd = new CPD(cpdConfiguration);
         ClassLoader classLoader = getClass().getClassLoader();
-        File file1 = new File(classLoader.getResource("gke_test.go").getFile());
-        //File file2 = new File(classLoader.getResource("go2.go").getFile());
+        File file1 = new File(classLoader.getResource("javascript1.js").getFile());
+        File file2 = new File(classLoader.getResource("javascript2.js").getFile());
         try {
             cpd.add(file1);
-            //cpd.add(file2);
+            cpd.add(file2);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // TODO Auto-generated catch 444block
             e.printStackTrace();
         }
         cpd.go();

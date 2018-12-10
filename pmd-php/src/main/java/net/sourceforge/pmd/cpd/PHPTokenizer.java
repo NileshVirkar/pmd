@@ -20,7 +20,7 @@ public class PHPTokenizer extends PygmentsTokenizer implements Tokenizer {
     private List<Integer> skipValues;
     
     public PHPTokenizer() {
-        skipValues = Arrays.asList(40, 41);
+        skipValues = Arrays.asList(4, 38, 40, 41, 42, 229);
     }
 
     @Override

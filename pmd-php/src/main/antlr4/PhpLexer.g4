@@ -224,7 +224,7 @@ PHPEnd:             ('?' | '%' {AspTags}?) '>'
 Whitespace:         [ \t\r\n]+ -> skip;
 MultiLineComment:   '/*' .*? '*/' -> channel(PhpComments);
 SingleLineComment:  '//' ~[\r\n]* -> channel(SkipChannel), pushMode(SingleLineCommentMode);
-ShellStyleComment:  '#' -> channel(SkipChannel), pushMode(SingleLineCommentMode);
+ShellStyleComment:  '#' ~[\r\n]* -> channel(SkipChannel), pushMode(SingleLineCommentMode);
 
 Abstract:           'abstract';
 Array:              'array';

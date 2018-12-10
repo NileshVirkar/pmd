@@ -15,7 +15,7 @@ public class CPDCommentTest {
     @Test
     public void phpCpdCommentTest() {
         CPDConfiguration cpdConfiguration = new CPDConfiguration();
-        Language language = new GoLanguage();
+        Language language = new ObjectiveCLanguage();
 
         cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
@@ -23,11 +23,11 @@ public class CPDCommentTest {
 
         CPD cpd = new CPD(cpdConfiguration);
         ClassLoader classLoader = getClass().getClassLoader();
-        File file1 = new File(classLoader.getResource("gke_test.go").getFile());
-        //File file2 = new File(classLoader.getResource("go2.go").getFile());
+        File file1 = new File(classLoader.getResource("objectivec1.m").getFile());
+        File file2 = new File(classLoader.getResource("objectivec2.m").getFile());
         try {
             cpd.add(file1);
-            //cpd.add(file2);
+            cpd.add(file2);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -38,24 +38,6 @@ public class CPDCommentTest {
         while (matchesIter.hasNext()) {
             matches.add(matchesIter.next());
         }
-
-//        assertTrue(matches.size() == 1);
-//        assertTrue(matches.get(0).getMarkCount() == 2);
-//
-//        Iterator<Mark> iterator = matches.get(0).getMarkSet().iterator();
-//        if (iterator.hasNext()) {
-//            Mark mark = iterator.next();
-//            assertTrue(mark.getBeginLine() == 10);
-//            assertTrue(mark.getEndLine() == 23);
-//            assertTrue(mark.getLineCount() == 14);
-//        }
-//
-//        if (iterator.hasNext()) {
-//            Mark mark = iterator.next();
-//            assertTrue(mark.getBeginLine() == 4);
-//            assertTrue(mark.getEndLine() == 14);
-//            assertTrue(mark.getLineCount() == 11);
-//        }
 
         System.out.println(matches.size());
         

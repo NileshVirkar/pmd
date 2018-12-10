@@ -15,7 +15,7 @@ public class CPDCommentTest {
     @Test
     public void phpCpdCommentTest() {
         CPDConfiguration cpdConfiguration = new CPDConfiguration();
-        Language language = new GoLanguage();
+        Language language = new PLSQLLanguage();
 
         cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
@@ -23,11 +23,11 @@ public class CPDCommentTest {
 
         CPD cpd = new CPD(cpdConfiguration);
         ClassLoader classLoader = getClass().getClassLoader();
-        File file1 = new File(classLoader.getResource("gke_test.go").getFile());
-        //File file2 = new File(classLoader.getResource("go2.go").getFile());
+        File file1 = new File(classLoader.getResource("plsql1.sql").getFile());
+        File file2 = new File(classLoader.getResource("plsql1.sql").getFile());
         try {
             cpd.add(file1);
-            //cpd.add(file2);
+            cpd.add(file2);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

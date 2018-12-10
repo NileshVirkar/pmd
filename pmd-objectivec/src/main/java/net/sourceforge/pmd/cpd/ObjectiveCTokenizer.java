@@ -35,6 +35,7 @@ public class ObjectiveCTokenizer implements Tokenizer {
                     .getTokenManager(sourceCode.getFileName(), reader));
             Token currentToken = (Token) tokenFilter.getNextToken();
             while (currentToken != null) {
+                //System.out.println(currentToken.beginLine +":"+currentToken.image);
                 tokenEntries.add(new TokenEntry(currentToken.image, sourceCode.getFileName(), currentToken.beginLine));
                 currentToken = (Token) tokenFilter.getNextToken();
             }

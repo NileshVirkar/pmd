@@ -1,9 +1,10 @@
 <?php
+# comment
 /* comment php1
  // comment php2  echo "line" */
  
  // comment php2
- echo "line1";
+echo "line1";
  echo "line2";
  $txt = "Hello world!";
  $x = 5;

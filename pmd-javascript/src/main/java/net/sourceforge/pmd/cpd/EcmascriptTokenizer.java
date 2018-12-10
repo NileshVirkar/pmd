@@ -36,6 +36,7 @@ public class EcmascriptTokenizer implements Tokenizer {
                     .getTokenManager(sourceCode.getFileName(), reader));
             Token currentToken = (Token) tokenFilter.getNextToken();
             while (currentToken != null) {
+                //System.out.println(currentToken.beginLine +":"+ getTokenImage(currentToken));
                 tokenEntries.add(
                         new TokenEntry(getTokenImage(currentToken), sourceCode.getFileName(), currentToken.beginLine));
                 currentToken = (Token) tokenFilter.getNextToken();
