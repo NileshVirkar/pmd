@@ -4,9 +4,10 @@
 	<parent>
 		<groupId>net.sourceforge.pmd</groupId>
 		<artifactId>pmd</artifactId>
-		<version>ACL-1.4.1.0-6.5.0-SNAPSHOT</version>
+		<version>develop</version>
 	</parent>
 	<artifactId>pmd-typescript</artifactId>
+	<version>${pmd.version}</version>
 	<name>pmd-typescript</name>
 
 	<build>
@@ -20,6 +21,22 @@
 					</delimiters>
 				</configuration>
 			</plugin>
+<!-- 			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.7.1</version>
+				<configuration>
+					<visitor>true</visitor>
+					<listener>true</listener>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
@@ -38,6 +55,11 @@
 			<groupId>net.sourceforge.pmd</groupId>
 			<artifactId>pmd-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7.1</version>
 		</dependency>
 	</dependencies>
 </project>

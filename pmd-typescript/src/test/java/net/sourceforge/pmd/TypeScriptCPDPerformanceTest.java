@@ -13,18 +13,19 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import net.sourceforge.pmd.cpd.CPD;
 import net.sourceforge.pmd.cpd.CPDConfiguration;
 import net.sourceforge.pmd.cpd.Language;
+import net.sourceforge.pmd.cpd.Mark;
 import net.sourceforge.pmd.cpd.Match;
 import net.sourceforge.pmd.cpd.TypeScriptLanguage;
 
-@Ignore
+//@Ignore
 public class TypeScriptCPDPerformanceTest {
 
     @Test
@@ -51,12 +52,13 @@ public class TypeScriptCPDPerformanceTest {
             matches.add(matchesIter.next());
         }
         System.out.println(matches.size());
-        // for (Match match : matches) {
-        // Set<Mark> marks = match.getMarkSet();
-        // for (Mark mark : marks) {
-        // System.out.println(mark.toString());
-        // }
-        // }
+
+        for (Match match : matches) {
+            Set<Mark> marks = match.getMarkSet();
+            for (Mark mark : marks) {
+                System.out.println(mark.toString());
+            }
+        }
     }
 
     private static void addFiles(CPD cpd, String baseDir) {
@@ -73,7 +75,7 @@ public class TypeScriptCPDPerformanceTest {
                 }
             }
             System.out
-                    .println(dateFormat.format(new Date()) + "Finished adding " + files.size() + " files to CPD tool");
+            .println(dateFormat.format(new Date()) + "Finished adding " + files.size() + " files to CPD tool");
         } catch (IOException e) {
             System.out.println("IOException while adding files into CPD");
         }

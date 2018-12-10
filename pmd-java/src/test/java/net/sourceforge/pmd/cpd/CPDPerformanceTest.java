@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+//@Ignore
 public class CPDPerformanceTest {
 
     //public static void main(String[] args) {

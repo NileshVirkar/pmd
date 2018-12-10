@@ -60,6 +60,7 @@ public class CsTokenizer implements Tokenizer {
                 }
             }
             if (!";".equals(token.image)) {
+                //System.out.println(token.lineNumber +":"+ token.image);
                 tokenEntries.add(new TokenEntry(token.image, sourceCode.getFileName(), token.lineNumber));
             }
             token = lookAhead;

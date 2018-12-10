@@ -94,6 +94,7 @@ public class PLSQLTokenizer implements Tokenizer {
                 image = String.valueOf(currentToken.kind);
             }
 
+            //System.out.println(currentToken.beginLine +":"+image);
             tokenEntries.add(new TokenEntry(image, fileName, currentToken.beginLine));
             addedTokens++;
             currentToken = (Token) tokenFilter.getNextToken();
