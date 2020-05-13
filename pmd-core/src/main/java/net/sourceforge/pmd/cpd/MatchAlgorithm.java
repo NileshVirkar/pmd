@@ -23,16 +23,18 @@ public class MatchAlgorithm {
     //private List<TokenEntry> code;
     private CPDListener cpdListener;
     private int min;
-
-    public MatchAlgorithm(Tokens tokens, int min) {
-        this(tokens, min, new CPDNullListener());
+    private int maximumMarkSize;
+    
+    public MatchAlgorithm(Tokens tokens, int min, int maximumMarkSize) {
+        this(tokens, min, maximumMarkSize, new CPDNullListener());
     }
 
-    public MatchAlgorithm(Tokens tokens, int min, CPDListener listener) {
+    public MatchAlgorithm(Tokens tokens, int min, int maximumMarkSize, CPDListener listener) {
         //this.source = sourceCode;
         this.tokens = tokens;
         //this.code = tokens.getTokens();
         this.min = min;
+        this.maximumMarkSize = maximumMarkSize;
         this.cpdListener = listener;
         for (int i = 0; i < min; i++) {
             lastMod *= MOD;
@@ -67,7 +69,10 @@ public class MatchAlgorithm {
                 @SuppressWarnings("unchecked")
                 List<TokenEntry> l = (List<TokenEntry>) o;
                 Collections.reverse(l);
-                matchCollector.collect(l);
+                
+                //Check for MBLD2020-79
+                if(l.size() <= maximumMarkSize)
+                	matchCollector.collect(l);
             }
             i.remove();
         }

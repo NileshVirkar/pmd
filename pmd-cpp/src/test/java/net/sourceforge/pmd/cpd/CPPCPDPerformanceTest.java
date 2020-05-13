@@ -30,9 +30,10 @@ public class CPPCPDPerformanceTest {
         cpdConfiguration.setMinimumTileSize(75);
         cpdConfiguration.setLanguage(language);
         cpdConfiguration.setSkipLexicalErrors(true);
-
+        cpdConfiguration.setMaximumMarkSize(100);
+        
         CPD cpd = new CPD(cpdConfiguration);
-        addFiles(cpd, "C:/corona/linux-master");
+        addFiles(cpd, "D:/source_codes/zip/cpp/horizon-master");
         long startTime = System.nanoTime();
         System.out.println(dateFormat.format(new Date()) + "Starting clone detection tool");
         cpd.go();

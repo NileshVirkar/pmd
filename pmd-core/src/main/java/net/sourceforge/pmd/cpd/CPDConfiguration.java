@@ -57,6 +57,11 @@ public class CPDConfiguration extends AbstractConfiguration {
             description = "The minimum token length which should be reported as a duplicate.", required = true)
     private int minimumTileSize;
 
+    //MBLD2020-79 - Some marks count are too much due to overlapping marks (Mostly comes in case of CPP)
+    @Parameter(names = "--maximum-marks",
+            description = "The maximum mark size for one match", required = false)
+    private int maximumMarkSize;
+    
     @Parameter(names = "--skip-duplicate-files",
             description = "Ignore multiple copies of files of the same name and length in comparison", required = false)
     private boolean skipDuplicates;
@@ -294,7 +299,15 @@ public class CPDConfiguration extends AbstractConfiguration {
         this.minimumTileSize = minimumTileSize;
     }
 
-    public boolean isSkipDuplicates() {
+	public int getMaximumMarkSize() {
+		return maximumMarkSize;
+	}
+
+	public void setMaximumMarkSize(int maximumMarkSize) {
+		this.maximumMarkSize = maximumMarkSize;
+	}
+
+	public boolean isSkipDuplicates() {
         return skipDuplicates;
     }
 
