@@ -46,7 +46,7 @@ public class CPD {
     }
 
     public void go() {
-        matchAlgorithm = new MatchAlgorithm(tokens, configuration.getMinimumTileSize(), listener);
+        matchAlgorithm = new MatchAlgorithm(tokens, configuration.getMinimumTileSize(), configuration.getMaximumMarkSize(), listener);
         matchAlgorithm.findMatches();
     }
 

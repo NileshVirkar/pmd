@@ -20,6 +20,7 @@ public class MatchCollector {
     }
 
     public void collect(List<TokenEntry> marks) {
+//    	System.out.println("starting collect, mark size: " + marks.size());
         // first get a pairwise collection of all maximal matches
         for (int i = 0; i < marks.size() - 1; i++) {
             TokenEntry mark1 = marks.get(i);
